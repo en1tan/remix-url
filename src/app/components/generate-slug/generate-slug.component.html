@@ -34,6 +34,12 @@
     </svg>
   </button>
 </form>
-<span class="bg-red-300 text-black text-sm">{{
-  generatedSlug != "" ? generatedSlug : "An Error Occured"
-}}</span>
+<span
+  [ngClass]="{
+    'bg-white text-xl font-bold': generatedSlug,
+    'bg-red-300 text-black text-sm': errMsg
+  }"
+>
+  <span *ngIf="generatedSlug">https://</span
+  >{{ generatedSlug != "" ? generatedSlug : "An Error Occured" }}</span
+>
