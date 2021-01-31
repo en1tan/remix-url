@@ -1,1 +1,38 @@
-<p>generate-slug works!</p>
+<form
+  (ngSubmit)="onGenerate()"
+  [formGroup]="generateSlug"
+  class="flex items-center justify-center"
+>
+  <input
+    type="url"
+    formControlName="url"
+    class="text-center mx-1 transition duration-500 bg-gray-200 border-2 p-2 border-blue-200 focus-within:border-blue-400 rounded-lg focus-within:outline-none focus-within:bg-gray-50 text-gray-500 placeholder-gray-400"
+    placeholder="https://"
+    [ngClass]="{
+      'border-red-500':
+        generateSlug.get('url').touched && generateSlug.get('url').valid
+    }"
+  />
+  <button
+    type="submit"
+    class="p-3 transition duration-500 transform hover:translate-x-1 hover:bg-yellow-500 bg-yellow-400 rounded-md text-white font-bold focus:outline-none"
+  >
+    <svg
+      class="w-5"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="4"
+        d="M9 5l7 7-7 7"
+      />
+    </svg>
+  </button>
+</form>
+<span class="bg-red-300 text-black text-sm">{{
+  generatedSlug != "" ? generatedSlug : "An Error Occured"
+}}</span>
