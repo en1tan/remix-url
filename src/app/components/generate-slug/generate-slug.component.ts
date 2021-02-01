@@ -10,28 +10,33 @@ import { trigger, state, style, animate, transition } from "@angular/animations"
 })
 export class GenerateSlugComponent implements OnInit {
 
-  generateSlug: FormGroup;
+  generateSlugForm: FormGroup;
   isLoading: boolean;
   generatedSlug: string;
   errMsg: string;
+  urlExpression = '^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|(www\\.)?){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?';
+  urlCheck: RegExp = new RegExp(this.urlExpression);
+
 
   constructor(private mainService: MainService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.generateSlug = this.fb.group({
-      url: [null, [Validators.required, Validators.pattern(/^(https:|http:|ftp:|www\.)\S*/)]]
+    this.generateSlugForm = this.fb.group({
+      url: [null, [Validators.required, Validators.pattern(this.urlCheck)]]
     });
   }
 
-  onGenerate() {
+  onGenerate(): void {
     this.isLoading = true;
-    this.mainService.generateSlug(this.generateSlug.value).subscribe((res: any) => {
-      this.generateSlug.reset();
+    this.generatedSlug = null;
+    this.errMsg = null;
+    this.mainService.generateSlug(this.generateSlugForm.value).subscribe((res: any) => {
+      this.generateSlugForm.reset();
       this.isLoading = false;
       this.generatedSlug = res.data;
     }, (err: any) => {
       this.isLoading = false;
-      this.errMsg = err.error.msg;
+      this.errMsg = err.error.msg.split(':')[2]
     });
   }
 

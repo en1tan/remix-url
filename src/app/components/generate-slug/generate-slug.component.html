@@ -1,6 +1,6 @@
 <form
   (ngSubmit)="onGenerate()"
-  [formGroup]="generateSlug"
+  [formGroup]="generateSlugForm"
   class="flex items-center justify-center"
 >
   <input
@@ -10,13 +10,21 @@
     placeholder="https://"
     [ngClass]="{
       'border-red-500':
-        generateSlug.get('url').touched && generateSlug.get('url').valid
+        generateSlugForm.get('url').touched &&
+        generateSlugForm.get('url').invalid
     }"
     required
   />
   <button
     type="submit"
-    class="p-3 transition duration-500 transform hover:translate-x-1 hover:bg-yellow-500 bg-yellow-400 rounded-md text-white font-bold focus:outline-none"
+    class="p-3 transition duration-500 rounded-md text-white font-bold focus:outline-none"
+    [ngClass]="{
+      'cursor-not-allowed bg-gray-400': generateSlugForm.get('url').invalid,
+      'bg-yellow-400 transform hover:translate-x-1 hover:bg-yellow-500': generateSlugForm.get(
+        'url'
+      ).valid
+    }"
+    [disabled]="generateSlugForm.get('url').invalid"
   >
     <svg
       class="w-5"
@@ -41,5 +49,5 @@
   }"
 >
   <span *ngIf="generatedSlug">https://</span
-  >{{ generatedSlug != "" ? generatedSlug : "An Error Occured" }}</span
+  >{{ generatedSlug != "" ? generatedSlug : errMsg }}</span
 >

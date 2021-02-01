@@ -26,11 +26,11 @@ export class MainService {
   generateSlug(url: string): Observable<string> {
     return this.http.post<string>(`${this.apiUrl}/slug/new`, url).pipe(
       tap((res: any) => {
-        console.log("Slug generated successfully");
+        console.log('Slug generated successfully');
 
       }, (err: any) => {
-        console.error(err);
-
+        // tslint:disable-next-line: no-console
+        console.debug(err);
       })
     )
   }
@@ -41,7 +41,8 @@ export class MainService {
         console.log("Fetched URL");
 
       }, (err: any) => {
-        console.error(err);
+        // tslint:disable-next-line: no-console
+        console.debug(err);
 
       })
     )

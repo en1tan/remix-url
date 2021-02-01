@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  baseApiUrl: 'https://strae-url-server.herokuapp.com',
 };
